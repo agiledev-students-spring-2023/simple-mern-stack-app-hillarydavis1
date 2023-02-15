@@ -78,7 +78,7 @@ app.post('/messages/save', async (req, res) => {
   }
 })
 app.get('/about', async (req, res) => {
-  try {
+
     res.json({
       txt: `Hello! My name is Hillary. I am a senior computer science major, and integrated design
       and Media minor from Dallas, Texas!
@@ -95,13 +95,6 @@ app.get('/about', async (req, res) => {
 
       img: "https://media.licdn.com/dms/image/C4E03AQFDCc12spg89Q/profile-displayphoto-shrink_100_100/0/1622757866433?e=1681948800&v=beta&t=E92x7SU-EixoGQNJb4YjBhfvzcZBM9DgIW4sHK1twiw",
     })
-  } catch (err) {
-    console.error(err)
-    res.status(400).json({
-      error: err,
-      status: 'failed to retrieve about me information',
-    })
-  }
 })
 
 // export the express app we created to make it available to other modules
