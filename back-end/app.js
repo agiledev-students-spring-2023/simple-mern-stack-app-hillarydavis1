@@ -77,6 +77,32 @@ app.post('/messages/save', async (req, res) => {
     })
   }
 })
+app.get('/about', async (req, res) => {
+  try {
+    res.json({
+      txt: `Hello! My name is Hillary. I am a senior computer science major, and integrated design
+      and Media minor from Dallas, Texas!
+
+      A fun fact about me is that I am a Triplet, and I spent my entire sophmore year
+      on a road trip around the continental United States. In my free time I love to bake, 
+      workout, read, explore different resturaunts and hang out with my dogs.
+
+      Some of my favorite artists are Beyonce (who's concert I am desperately trying to get tickets to),
+      Alabama Shakes, Norah Jones, Kendrick and the Monophonics. My favorite song at 
+      the moment is 'I'm That Girl' by Beyonce. I am nervous and excited for graduation in the spring!
+      
+      Thanks for reading!`,
+
+      img: "https://media.licdn.com/dms/image/C4E03AQFDCc12spg89Q/profile-displayphoto-shrink_100_100/0/1622757866433?e=1681948800&v=beta&t=E92x7SU-EixoGQNJb4YjBhfvzcZBM9DgIW4sHK1twiw",
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(400).json({
+      error: err,
+      status: 'failed to retrieve about me information',
+    })
+  }
+})
 
 // export the express app we created to make it available to other modules
 module.exports = app // CommonJS export style!

@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import './About.css'
-import Image from './hillary.jpeg'
+import axios from 'axios'
+
 
 /**
  * A React component that represents one Message in the list of messages.
@@ -8,27 +9,46 @@ import Image from './hillary.jpeg'
  * @returns The contents of this component, in JSX form.
  */
 const About = props => {
-    return (
-      <>
-        <img src={Image} alt="image" />
-        <h1>About Me</h1>
-        
-        <p  class = "text">Hello! My name is Hillary. I am a senior computer science major, and integrated design 
-            and Media minor from Dallas, Texas!
+  const [loaded, setLoaded] = useState(false)
+  const [error, setError] = useState('')
+  const [myImage, setImage] = useState('')
+  const [myText, setText] = useState('')
 
-            A fun fact about me is that I am a Triplet, and I spent my entire sophmore year
-            on a road trip around the continental United States. In my free time I love to bake, 
-            workout, read, explore different resturaunts and hang out with my dogs.
-
-            Some of my favorite artists are Beyonce (who's concert I am desperately trying to get tickets to),
-            Alabama Shakes, Norah Jones, Kendrick and the Monophonics. My favorite song at 
-            the moment is 'I'm That Girl' by Beyonce. I am nervous and excited for graduation in the spring!
-
-            Thanks for reading!
-        </p>
-      </>
-    )
+  /**
+   * A nested function that fetches messages from the back-end server.
+   */
+  const fetchAbout = () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_HOSTNAME}/about`)
+      .then(response => {
+        const aboutText = response.data.txt
+        const imageUrl = response.data.img
+        setText(aboutText)
+        setImage(imageUrl)
+      })
+      .catch(err => {
+        setError(err)
+      })
+      .finally(() => {
+        setLoaded(true)
+      })
   }
 
-// make this component available to be imported into any other file
+  useEffect(() => {
+    fetchAbout()
+  }, []) 
+
+  return (
+    <>
+      <h1>About Me</h1>
+      {error && <p className="MessageForm-error">{error}</p>}
+      <img src={myImage} alt='' style={{maxHeight:"250px", width:"auto"}}/>
+      <p style={{ width: '35%', margin: 'auto', lineHeight: '2'}}>
+        {myText}
+      </p>
+
+    </>
+  )
+}
+
 export default About
